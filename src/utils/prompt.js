@@ -9,7 +9,7 @@ function Prompts() {
                 Explain any restructuring or code simplification
                 Note any changes in naming conventions`, 
         
-        addComments:`Add meaningful and descriptive comments to the following code. The comments should explain the purpose of each function, key variables, and any complex or important logic, ensuring that another developer can easily understand the code. Focus on clarity without being overly verbose. Provide the code in a text format and not inside any compiler. ust provide the code there is no need to give any information for changes made or additonal information.
+        addComments:`Add meaningful and descriptive comments to the following code. The comments should explain the purpose of each function, key variables, and any complex or important logic, ensuring that another developer can easily understand the code. Focus on clarity without being overly verbose. Provide the code in a text format and not inside any compiler. Just provide the code there is no need to give any information for changes made or additonal information.
         The output should be in the following structure:
             Commented Code:
                 <Provide the code with comments>`, 

@@ -18,6 +18,7 @@ export default function CodeAssist() {
   const [code, setCode] = useState("")
   const [customInstructions, setCustomInstructions] = useState("")
   const [output, setOutput] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
 
   const functionalities: { id: Functionality; name: string; description: string; icon: React.ReactNode }[] = [
     { id: "refactor", name: "Refactor Code", description: "Optimize your code for performance and readability.", icon: <Code className="w-6 h-6" /> },
@@ -28,23 +29,27 @@ export default function CodeAssist() {
   ]
 
   const handleSubmit = async () => {
+    setOutput("");
+    setIsLoading(true);
     const instructions = selectedFunctionality === "customInstructions" ? customInstructions : "";
-    const prompt = `${prompts[selectedFunctionality]}, ${instructions}, \n \n ${code} \n If no code is provided, respond with: "Please provide a code snippet." `;
+    const prompt = `${prompts[selectedFunctionality]}, ${instructions}, \n \n ${code} \n If no code is provided, respond with: "Please provide a code snippet." Even one line of code should be considered as code `;
     const result = await getGeminiCompletion("", prompt); 
+    setIsLoading(false);
     setOutput(`${result}`);
   };
 
   return (
     <div className="flex flex-col h-screen bg-black text-gray-300">
       <header className="bg-zinc-900 p-4 flex justify-between items-center">
-        <Link to="/" className="text-xl font-bold flex items-center gap-2 hover:text-white transition-colors">
-        <FontAwesomeIcon icon={faRobot} />
+        <Link to="/main" className="text-xl font-bold flex items-center gap-2 hover:text-white transition-colors">
+          <FontAwesomeIcon icon={faRobot} />
           Code Assist
         </Link>
         <nav>
-          <a href="/about" className="hover:text-white transition-colors">About Us</a>
+          <a href="/" className="hover:text-white transition-colors">About Us</a>
         </nav>
       </header>
+
       <main className="flex flex-1 overflow-hidden">
         <aside className="w-80 bg-zinc-900 p-4 overflow-y-auto">
           {functionalities.map((func) => (
@@ -62,6 +67,7 @@ export default function CodeAssist() {
               <p className="text-sm text-gray-400">{func.description}</p>
             </button>
           ))}
+
           {selectedFunctionality === "customInstructions" && (
             <div className="mt-4">
               <Textarea
@@ -73,21 +79,38 @@ export default function CodeAssist() {
             </div>
           )}
         </aside>
-        <section className="flex-1 flex flex-col p-4 bg-black">
-          <Textarea
-            placeholder="Enter your code here..."
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-            className="flex-1 mb-4 bg-zinc-900 text-white border-zinc-700 focus:border-zinc-600 focus:ring-zinc-600 rounded-lg p-4"
-          />
-          <Button onClick={handleSubmit} className="bg-cyan-600 hover:bg-cyan-700 text-white mb-4">
-            Process Code
-          </Button>
-          <ScrollArea className="flex-1 bg-zinc-900 rounded-lg p-4">
-          <pre className="text-gray-400 whitespace-pre-wrap font-mono text-sm text-left">{output}</pre>
-          </ScrollArea>
+
+        <section className="flex-1 flex overflow-hidden">
+          <div className="flex-1 flex flex-col p-6 border-r border-zinc-700">
+            <h2 className="text-xl font-semibold mb-2 text-white">Input Code</h2>
+            <Textarea
+              placeholder="Enter your code here..."
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              className="flex-1 bg-zinc-900 text-white border-zinc-700 focus:border-zinc-600 focus:ring-zinc-600 rounded-lg p-4 mb-4"
+            />
+            <Button onClick={handleSubmit} className="bg-zinc-700 hover:bg-zinc-600 text-white px-8 py-2 rounded-s-full rounded-e-full transition-colors self-end">
+                Process Code
+            </Button>
+          </div>
+
+          <div className="flex-1 flex flex-col p-6">
+            <h2 className="text-xl font-semibold mb-2 text-white">Output</h2>
+            <ScrollArea className="flex-1 bg-zinc-900 rounded-lg p-4 border border-zinc-700">
+
+            {isLoading && (
+              <div className="absolute top-2 left-2 flex space-x-1 items-center">
+                <div className="h-3 w-3 bg-gray-400 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                <div className="h-3 w-3 bg-gray-400 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                <div className="h-3 w-3 bg-gray-400 rounded-full animate-bounce"></div>
+              </div>
+            )}
+
+              <pre className="text-gray-400 whitespace-pre-wrap font-mono text-sm text-left">{output}</pre>
+            </ScrollArea>
+          </div>
         </section>
       </main>
     </div>
-  )
+  );
 }
