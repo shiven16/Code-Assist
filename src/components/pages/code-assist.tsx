@@ -67,7 +67,9 @@ export default function CodeAssist() {
             Sign Out
           </button>
           <nav className="hidden md:block">
-            <a href="/" className="hover:text-primary transition-colors">About Us</a>
+            <button onClick={()=>{
+              navigate('/');
+            }} className="hover:text-primary transition-colors">About Us</button>
           </nav>
           <button onClick={toggleTheme} className={`p-2 rounded-full ${theme === 'light' ? 'hover:bg-gray-200' : 'hover:bg-gray-700'}`}>
             {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5 text-gray-600" />}
