@@ -9,7 +9,6 @@ async function getGeminiCompletion(messages, prompt) {
     try {
       const result = await model.generateContent(prompt);
       const res = result.response.text()
-      // console.log(typeof(res));
       return res;
     } catch (error) {
       console.error('Error fetching Gemini completion:', error);
@@ -17,5 +16,4 @@ async function getGeminiCompletion(messages, prompt) {
     }
 }
 
-getGeminiCompletion("", "hi gemini");
 module.exports = { getGeminiCompletion };

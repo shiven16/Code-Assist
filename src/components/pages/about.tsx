@@ -62,16 +62,34 @@ export default function About() {
           <Menu className="w-6 h-6" />
         </button>
        </header>
+       
+        {isMenuOpen && (
+          <div className={`md:hidden ${theme === 'dark' ? 'bg-zinc-800' : 'bg-gray-100'} p-4`}>
+            {currentUser ? (
+              <>
+                <button onClick= {async () => {
+                      await signOut()
+                    }} className={`block py-2 ${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-gray-900 hover:text-black'} transition-colors`}>
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/signIn" className={`block py-2 ${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-gray-900 hover:text-black'} transition-colors`}>
+                  Log In
+                </Link>
+                <Link to="/signUp" className={`block py-2 ${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-gray-900 hover:text-black'} transition-colors`}>
+                  Sign Up
+                </Link>
+              </>
+            )}
+    
+    <button onClick={toggleTheme} className="w-full text-left py-2">
+      {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+    </button>
+  </div>
+)}
 
-       {isMenuOpen && (
-         <div className={`md:hidden ${theme === 'dark' ? 'bg-zinc-800' : 'bg-gray-100'} p-4`}>
-           <Link to="/signIn" className={`block py-2 ${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-gray-900 hover:text-black'} transition-colors`}>Log In</Link>
-           <Link to="/signUp" className={`block py-2 ${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-gray-900 hover:text-black'} transition-colors`}>Sign Up</Link>
-           <button onClick={toggleTheme} className="w-full text-left py-2">
-             {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-           </button>
-         </div>
-       )}
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <motion.section

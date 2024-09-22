@@ -68,7 +68,7 @@ export default function CodeAssist() {
           </button>
           <nav className="hidden md:block">
             <button onClick={()=>{
-              navigate('/');
+              navigate('/')
             }} className="hover:text-primary transition-colors">About Us</button>
           </nav>
           <button onClick={toggleTheme} className={`p-2 rounded-full ${theme === 'light' ? 'hover:bg-gray-200' : 'hover:bg-gray-700'}`}>
