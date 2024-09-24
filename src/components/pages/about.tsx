@@ -9,7 +9,7 @@ import { useAuth } from "../../firebase/authContext";
 import { signOut } from '../../firebase/auth.js'
 
 export default function About() {
-  const [hoveredFeature, setHoveredFeature] = useState<string | null>(null)
+  const [, setHoveredFeature] = useState<string | null>(null)
   const { scrollYProgress } = useScroll()
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.8])
@@ -62,7 +62,7 @@ export default function About() {
           <Menu className="w-6 h-6" />
         </button>
        </header>
-       
+
         {isMenuOpen && (
           <div className={`md:hidden ${theme === 'dark' ? 'bg-zinc-800' : 'bg-gray-100'} p-4`}>
             {currentUser ? (
