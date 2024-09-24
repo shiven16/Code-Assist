@@ -9,6 +9,10 @@ const signIn = (email, password) => {
 };
 
 const signUp = async (name, email, password) => {
+  if (password.length < 6) {
+    throw new Error('Password must be at least 6 characters long.');
+  }
+
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     console.log(userCredential);
@@ -22,9 +26,14 @@ const signUp = async (name, email, password) => {
     return user;
   } 
   catch (error) {
-    console.log(error.message);
+    if (error.code === 'auth/email-already-in-use') {
+      throw new Error('User already exists. Please use a different email.');
+    }
+    
+    throw error;
   }
 };
+
 
 const signOut = async () => {
     try {

@@ -14,15 +14,17 @@ const SignUp: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    
     try {
       await signUp(name, email, password);
       console.log('Successfully signed up');
       navigate('/signIn');
-    } catch (err) {
-      setError('Failed to sign up. Please try again.');
+    } catch (err: any) {
+      setError(err.message || 'Failed to sign up. Please try again.');
       console.error('Sign-up error:', err);
     }
   };
+  
 
   return (
     <div className="min-h-screen bg-white flex flex-col justify-center items-center px-4">
