@@ -1,8 +1,5 @@
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut as firebaseSignOut } from 'firebase/auth';
-import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import { auth } from './firebaseConfig';
-
-const db = getFirestore();
 
 const signIn = (email, password) => {
   return signInWithEmailAndPassword(auth, email, password);
@@ -17,19 +14,12 @@ const signUp = async (name, email, password) => {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     console.log(userCredential);
     const user = userCredential.user;
-
-    await setDoc(doc(db, 'users', user.uid), {
-      name,
-      email,
-    });
-
     return user;
   } 
   catch (error) {
     if (error.code === 'auth/email-already-in-use') {
       throw new Error('User already exists. Please use a different email.');
     }
-    
     throw error;
   }
 };
