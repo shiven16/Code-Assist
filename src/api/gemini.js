@@ -1,19 +1,22 @@
-// const dotenv = require("dotenv");
-// dotenv.config();
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-// console.log(process.env.REACT_APP_GEMINI_API_KEY);
-const genAI = new GoogleGenerativeAI("AIzaSyCPrZZ3vxVJDWoBfrVYMoGeWQ8Tp12_nLw");
+
+const genAI = new GoogleGenerativeAI("AIzaSyCidKhemWpadfEBt1uyAOPlT2R-Hc0Clq4");
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 async function getGeminiCompletion(messages, prompt) {
-    try {
-      const result = await model.generateContent(prompt);
-      const res = result.response.text()
-      return res;
-    } catch (error) {
-      console.error('Error fetching Gemini completion:', error);
-      return { content: 'Error fetching response from AI.' };
+  try {
+    const result = await model.generateContent(prompt);
+    const res = result.response.text();
+    return res;
+  } catch (error) {
+    if (error.status === 429) {
+      console.error("Rate limit reached. Please try again later.");
+      return "Rate limit exceeded. Please try again later or tomorrow.";
     }
+
+    console.error("Error fetching Gemini completion:", error);
+    return { content: "An unexpected error occurred while fetching a response from AI." };
+  }
 }
 
 module.exports = { getGeminiCompletion };
